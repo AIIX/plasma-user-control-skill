@@ -1,11 +1,11 @@
 # Mycroft plasma-user-control-skill
-This skill integrates Plasma 5 Desktop Internals with Mycroft which enables users to Lock Screen, Switch Users and Logout of the Desktop.
+This skill integrates Plasma 5 Desktop Internals with Mycroft which enables users to Lock Screen, Switch Users, Logout and Control Brightness of the Desktop.
 
 #### Installation of skill:
-* Download or Clone Git
+* Download or Clone Git (run: git clone https://github.com/AIIX/plasma-user-control-skill inside /opt/mycroft/skills)
 * Create /opt/mycroft/skills folder if it does not exist
-* Extract Downloaded Skill into a folder. "mycroft-internals-plasma-skill". (Clone does not require this step)
-* Copy the mycroft-internals-plasma-skill folder to /opt/mycroft/skills/ folder
+* Extract Downloaded Skill into a folder. "plasma-user-control-skill". (Clone does not require this step)
+* Copy the plasma-user-control-skill folder to /opt/mycroft/skills/ folder
 
 #### Installation of requirements:
 ##### Fedora: 
