@@ -1,4 +1,4 @@
-# mycroft-internals-plasma-skill
+# Mycroft plasma-user-control-skill
 This skill integrates Plasma 5 Desktop Internals with Mycroft which enables users to Lock Screen, Switch Users and Logout of the Desktop.
 
 #### Installation of skill:
@@ -23,7 +23,7 @@ This skill integrates Plasma 5 Desktop Internals with Mycroft which enables user
 
 ##### How To Use: 
 ###### Lockscreen
-- "Hey Mycroft, lock the screen"
+- "Hey Mycroft, lock the screen "
 - "Hey Mycroft, lock screen "
 
 ###### Switch Users
@@ -34,12 +34,29 @@ This skill integrates Plasma 5 Desktop Internals with Mycroft which enables user
 - "Hey Mycroft, logout of the current session "
 - "Hey Mycroft, logout session "
 
+###### Increase Brightness
+- "Hey Mycroft, increase the brightness "
+- "Hey Mycroft, increase brightness "
+
+###### Maximum Brightness
+- "Hey Mycroft, increase to maximum brightness "
+- "Hey Mycroft, maximum brightness "
+
+###### Decrease Brightness
+- "Hey Mycroft, decrease the brightness "
+- "Hey Mycroft, decrease brightness "
+
+###### Minimum Brightness
+- "Hey Mycroft, decrease to minimum brightness "
+- "Hey Mycroft, minimum brightness "
+
 ## Current state
 
 Working features:
 * Lock Screen
 * Switch Users
 * Logout
+* Brightness Control
 
 Known issues:
 * None
