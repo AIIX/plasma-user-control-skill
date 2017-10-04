@@ -33,6 +33,22 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         internals_logout_plasma_skill_intent = IntentBuilder("LogoutKeywordIntent").\
             require("InternalLogoutDesktopKeyword").build()
         self.register_intent(internals_logout_plasma_skill_intent, self.handle_internals_logout_plasma_skill_intent)
+        
+        internals_increasebrightness_plasma_skill_intent = IntentBuilder("IncreaseBrightnessKeywordIntent").\
+            require("InternalIncreaseBrightnessDesktopKeyword").build()
+        self.register_intent(internals_increasebrightness_plasma_skill_intent, self.handle_internals_increasebrightness_plasma_skill_intent)
+        
+        internals_decreasebrightness_plasma_skill_intent = IntentBuilder("DecreaseBrightnessKeywordIntent").\
+            require("InternalDecreaseBrightnessDesktopKeyword").build()
+        self.register_intent(internals_decreasebrightness_plasma_skill_intent, self.handle_internals_decreasebrightness_plasma_skill_intent)
+
+        internals_maximumbrightness_plasma_skill_intent = IntentBuilder("MaximumBrightnessKeywordIntent").\
+            require("InternalMaximumBrightnessDesktopKeyword").build()
+        self.register_intent(internals_maximumbrightness_plasma_skill_intent, self.handle_internals_maximumbrightness_plasma_skill_intent)
+        
+        internals_minimumbrightness_plasma_skill_intent = IntentBuilder("MinimumBrightnessKeywordIntent").\
+            require("InternalMinimumBrightnessDesktopKeyword").build()
+        self.register_intent(internals_minimumbrightness_plasma_skill_intent, self.handle_internals_minimumbrightness_plasma_skill_intent)
 
     def handle_internals_switchuser_plasma_skill_intent(self, message):
         
@@ -55,6 +71,40 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         remote_object.Lock(dbus_interface = "org.freedesktop.ScreenSaver")
         
         self.speak_dialog("internals.lock")
+
+    def handle_internals_increasebrightness_plasma_skill_intent(self, message):
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.freedesktop.PowerManagement","/org/kde/Solid/PowerManagement/Actions/BrightnessControl")
+        currentbrightness = remote_object.brightness(dbus_interface = "org.kde.Solid.PowerManagement.Actions.BrightnessControl")
+        if currentbrightness >=25 and currentbrightness < 1500:
+            currentbrightness += 50
+            remote_object.setBrightness(currentbrightness, dbus_interface = "org.kde.Solid.PowerManagement.Actions.BrightnessControl")
+        
+        self.speak_dialog("internals.increasebrightness")
+        
+    def handle_internals_decreasebrightness_plasma_skill_intent(self, message):
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.freedesktop.PowerManagement","/org/kde/Solid/PowerManagement/Actions/BrightnessControl")
+        currentbrightness = remote_object.brightness(dbus_interface = "org.kde.Solid.PowerManagement.Actions.BrightnessControl")
+        if currentbrightness <=1500 and currentbrightness > 25:
+            currentbrightness -= 50
+            remote_object.setBrightness(currentbrightness, dbus_interface = "org.kde.Solid.PowerManagement.Actions.BrightnessControl")
+        
+        self.speak_dialog("internals.decreasebrightness")
+        
+    def handle_internals_maximumbrightness_plasma_skill_intent(self, message):
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.freedesktop.PowerManagement","/org/kde/Solid/PowerManagement/Actions/BrightnessControl") 
+        remote_object.setBrightness(1500, dbus_interface = "org.kde.Solid.PowerManagement.Actions.BrightnessControl")
+        
+        self.speak_dialog("internals.maximumbrightness")
+        
+    def handle_internals_minimumbrightness_plasma_skill_intent(self, message):
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.freedesktop.PowerManagement","/org/kde/Solid/PowerManagement/Actions/BrightnessControl") 
+        remote_object.setBrightness(25, dbus_interface = "org.kde.Solid.PowerManagement.Actions.BrightnessControl")
+        
+        self.speak_dialog("internals.minimumbrightness")
         
     def stop(self):
         pass

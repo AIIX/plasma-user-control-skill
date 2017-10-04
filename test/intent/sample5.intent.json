@@ -1,0 +1,7 @@
+{
+  "utterance": "decrease",
+  "intent_type": "DecreaseBrightnessKeywordIntent",
+  "intent": {
+    "InternalLockDesktopKeyword": "brightness"
+  }
+}
