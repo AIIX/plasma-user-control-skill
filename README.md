@@ -1,5 +1,5 @@
 # Mycroft plasma-user-control-skill
-This skill integrates Plasma 5 Desktop Internals with Mycroft which enables users to Lock Screen, Switch Users, Logout and Control Brightness of the Desktop.
+This skill integrates Plasma 5 Desktop Internals with Mycroft which enables users to Lock Screen, Switch Users, Logout, Control Brightness and Panel Positions of the Desktop.
 
 #### Installation of skill:
 * Download or Clone Git (run: git clone https://github.com/AIIX/plasma-user-control-skill inside /opt/mycroft/skills)
@@ -50,6 +50,10 @@ This skill integrates Plasma 5 Desktop Internals with Mycroft which enables user
 - "Hey Mycroft, decrease to minimum brightness "
 - "Hey Mycroft, minimum brightness "
 
+###### Change Location of Default Panel
+- "Hey Mycroft, move panel to top/bottom/left/right"
+- "Hey Mycroft, move the default panel to top/bottom/left/right"
+
 ## Current state
 
 Working features:
@@ -57,6 +61,7 @@ Working features:
 * Switch Users
 * Logout
 * Brightness Control
+* Moving Default Panel
 
 Known issues:
 * None

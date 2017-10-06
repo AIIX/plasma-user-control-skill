@@ -1,6 +1,5 @@
 import sys
 import dbus
-import glib
 from traceback import print_exc
 from os.path import dirname
 from adapt.intent import IntentBuilder
@@ -49,7 +48,11 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         internals_minimumbrightness_plasma_skill_intent = IntentBuilder("MinimumBrightnessKeywordIntent").\
             require("InternalMinimumBrightnessDesktopKeyword").build()
         self.register_intent(internals_minimumbrightness_plasma_skill_intent, self.handle_internals_minimumbrightness_plasma_skill_intent)
-
+        
+        internals_movemainpanel_plasma_skill_intent = IntentBuilder("MoveMainPanelKeywordIntent").\
+            require("InternalMoveMainPanelDesktopKeyword").build()
+        self.register_intent(internals_movemainpanel_plasma_skill_intent, self.handle_internals_movemainpanel_plasma_skill_intent)
+        
     def handle_internals_switchuser_plasma_skill_intent(self, message):
         
         bus = dbus.SessionBus()
@@ -105,6 +108,31 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         remote_object.setBrightness(25, dbus_interface = "org.kde.Solid.PowerManagement.Actions.BrightnessControl")
         
         self.speak_dialog("internals.minimumbrightness")
+        
+    def handle_internals_movemainpanel_plasma_skill_intent(self, message):
+        utterance = message.data.get('utterance').lower()
+        utterance = utterance.replace(message.data.get('InternalMoveMainPanelDesktopKeyword'), '')
+        getloc = utterance.replace(" ", "")
+        location = getloc
+
+        if location == "bottom":
+            bus = dbus.SessionBus()
+            remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
+            remote_object.evaluateScript("var v = panelIds; panelById(v[0]).location = 'bottom';")
+        elif location == "top":
+            bus = dbus.SessionBus()
+            remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
+            remote_object.evaluateScript("var v = panelIds; panelById(v[0]).location = 'top';")
+        elif location == "left":
+            bus = dbus.SessionBus()
+            remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
+            remote_object.evaluateScript("var v = panelIds; panelById(v[0]).location = 'left';")
+        elif location == "right":
+            bus = dbus.SessionBus()
+            remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
+            remote_object.evaluateScript("var v = panelIds; panelById(v[0]).location = 'right';")
+        else:
+            self.speak_dialog("internals.badlocation")
         
     def stop(self):
         pass
