@@ -53,6 +53,14 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
             require("InternalMoveMainPanelDesktopKeyword").build()
         self.register_intent(internals_movemainpanel_plasma_skill_intent, self.handle_internals_movemainpanel_plasma_skill_intent)
         
+        internals_addwidget_plasmapanel_skill_intent = IntentBuilder("AddWigetToPanelKeywordIntent").\
+            require("InternalAddWidgetToPanelDesktopKeyword").build()
+        self.register_intent(internals_addwidget_plasmapanel_skill_intent, self.handle_internals_addwidget_plasmapanel_skill_intent)
+
+        internals_addwidget_plasmadesktop_skill_intent = IntentBuilder("AddWigetToDesktopKeywordIntent").\
+            require("InternalAddWidgetToDesktopKeyword").build()
+        self.register_intent(internals_addwidget_plasmadesktop_skill_intent, self.handle_internals_addwidget_plasmadesktop_skill_intent)
+    
     def handle_internals_switchuser_plasma_skill_intent(self, message):
         
         bus = dbus.SessionBus()
@@ -119,20 +127,48 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
             bus = dbus.SessionBus()
             remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
             remote_object.evaluateScript("var v = panelIds; panelById(v[0]).location = 'bottom';")
+            self.speak_dialog("internals.changeloc")
         elif location == "top":
             bus = dbus.SessionBus()
             remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
             remote_object.evaluateScript("var v = panelIds; panelById(v[0]).location = 'top';")
+            self.speak_dialog("internals.changeloc")
         elif location == "left":
             bus = dbus.SessionBus()
             remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
             remote_object.evaluateScript("var v = panelIds; panelById(v[0]).location = 'left';")
+            self.speak_dialog("internals.changeloc")
         elif location == "right":
             bus = dbus.SessionBus()
             remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
             remote_object.evaluateScript("var v = panelIds; panelById(v[0]).location = 'right';")
+            self.speak_dialog("internals.changeloc")
         else:
             self.speak_dialog("internals.badlocation")
+            
+    def handle_internals_addwidget_plasmapanel_skill_intent(self, message):
+        utterance = message.data.get('utterance').lower()
+        utterance = utterance.replace(message.data.get('InternalAddWidgetToPanelDesktopKeyword'), '')
+        getwidname = utterance.replace(" ", "")
+        getwidname.encode('utf-8')
+        genJsc = 'var utter = "{0}"; var r = knownWidgetTypes; var wr = knownWidgetTypes; var readablelist = []; for(var ir = 0; ir < r.length; ir++){{ var n = r[ir].split(".").pop(); readablelist.push(n); }}; if (readablelist.indexOf(utter) !== -1){{ var utterancematch = utter; for (var lr=0; lr < r.length; lr++){{ if (wr[lr].match(utterancematch)) {{ var widgtName = (wr[lr]); var v = panelIds; panelById(v[0]).addWidget(widgtName); }}; }}; }} else {{ print ("Keyword not Found"); }}'.format(getwidname)
+        sendJsc = genJsc
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
+        remote_object.evaluateScript(sendJsc)
+        self.speak_dialog("internals.widadded")
+        
+    def handle_internals_addwidget_plasmadesktop_skill_intent(self, message):
+        utterance = message.data.get('utterance').lower()
+        utterance = utterance.replace(message.data.get('InternalAddWidgetToDesktopKeyword'), '')
+        getwidname = utterance.replace(" ", "")
+        getwidname.encode('utf-8')
+        genJsc = 'var utter = "{0}"; var r = knownWidgetTypes; var wr = knownWidgetTypes; var readablelist = []; for(var ir = 0; ir < r.length; ir++){{ var n = r[ir].split(".").pop(); readablelist.push(n); }}; if (readablelist.indexOf(utter) !== -1){{ var utterancematch = utter; for (var lr=0; lr < r.length; lr++){{ if (wr[lr].match(utterancematch)) {{ var widgtName = (wr[lr]); var mainDesktop = desktops(); var d = mainDesktop[0]; d.addWidget(widgtName); }}; }}; }} else {{ print ("Keyword not Found"); }}'.format(getwidname)
+        sendJsc = genJsc
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
+        remote_object.evaluateScript(sendJsc)
+        self.speak_dialog("internals.widadded")
         
     def stop(self):
         pass
