@@ -54,9 +54,16 @@ This skill integrates Plasma 5 Desktop Internals with Mycroft which enables user
 - "Hey Mycroft, move panel to top/bottom/left/right"
 - "Hey Mycroft, move the default panel to top/bottom/left/right"
 
+###### Add Widget To Desktop
+- "Hey Mycroft, Add widget to desktop 'widgetname'"
+
+###### Add Widget To Default Panel
+- "Hey Mycroft, Add widget to panel 'widgetname'"
+
 ## Current state
 
 Working features:
+* Add Widgets to Desktop/Panel
 * Lock Screen
 * Switch Users
 * Logout
