@@ -60,6 +60,10 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         internals_addwidget_plasmadesktop_skill_intent = IntentBuilder("AddWigetToDesktopKeywordIntent").\
             require("InternalAddWidgetToDesktopKeyword").build()
         self.register_intent(internals_addwidget_plasmadesktop_skill_intent, self.handle_internals_addwidget_plasmadesktop_skill_intent)
+        
+        internals_toogletouchpad_plasmadesktop_skill_intent = IntentBuilder("ToogleTouchPadKeywordIntent").\
+            require("InternalToogleTouchPadKeyword").build()
+        self.register_intent(internals_toogletouchpad_plasmadesktop_skill_intent, self.handle_internals_toogletouchpad_plasmadesktop_skill_intent)
     
     def handle_internals_switchuser_plasma_skill_intent(self, message):
         
@@ -170,6 +174,25 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         remote_object.evaluateScript(sendJsc)
         self.speak_dialog("internals.widadded")
         
+    def handle_internals_toogletouchpad_plasmadesktop_skill_intent(self, message):
+        utterance = message.data.get('utterance').lower()
+        utterance = utterance.replace(message.data.get('InternalToogleTouchPadKeyword'), '')
+        gettogglequery = utterance.replace(" ", "")
+        gettogglequery.encode('utf-8')
+        
+        if (gettogglequery == "enable") or ( gettogglequery == "enabled"):
+            bus = dbus.SessionBus()
+            remote_object = bus.get_object("org.kde.plasmanetworkmanagement","/modules/touchpad")
+            remote_object.enable(dbus_interface = "org.kde.touchpad")
+            self.speak("Touchpad Enabled")
+        elif (gettogglequery == "disable") or (gettogglequery == "disabled"):
+            bus = dbus.SessionBus()
+            remote_object = bus.get_object("org.kde.plasmanetworkmanagement","/modules/touchpad")
+            remote_object.disable(dbus_interface = "org.kde.touchpad")
+            self.speak("Touchpad Disable")
+        else:
+            self.speak("Touchpad toggle not found, valid toggle's are: touchpad enable, touchpad disable")
+
     def stop(self):
         pass
 

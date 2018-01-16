@@ -60,6 +60,10 @@ This skill integrates Plasma 5 Desktop Internals with Mycroft which enables user
 ###### Add Widget To Default Panel
 - "Hey Mycroft, Add widget to panel 'widgetname'"
 
+###### Enable / Disable Touchpad
+- "Hey Mycroft, Touchpad Enable"
+- "Hey Mycroft, Touchpad Disable"
+
 ## Current state
 
 Working features:
@@ -69,6 +73,7 @@ Working features:
 * Logout
 * Brightness Control
 * Moving Default Panel
+* Touchpad Enable/Disable
 
 Known issues:
 * None
