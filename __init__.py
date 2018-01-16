@@ -64,6 +64,7 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         internals_toogletouchpad_plasmadesktop_skill_intent = IntentBuilder("ToogleTouchPadKeywordIntent").\
             require("InternalToogleTouchPadKeyword").build()
         self.register_intent(internals_toogletouchpad_plasmadesktop_skill_intent, self.handle_internals_toogletouchpad_plasmadesktop_skill_intent)
+
     
     def handle_internals_switchuser_plasma_skill_intent(self, message):
         
