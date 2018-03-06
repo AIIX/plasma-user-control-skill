@@ -64,8 +64,15 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         internals_toogletouchpad_plasmadesktop_skill_intent = IntentBuilder("ToogleTouchPadKeywordIntent").\
             require("InternalToogleTouchPadKeyword").build()
         self.register_intent(internals_toogletouchpad_plasmadesktop_skill_intent, self.handle_internals_toogletouchpad_plasmadesktop_skill_intent)
+        
+        internals_toogleklipper_plasmadesktop_skill_intent = IntentBuilder("ShowKlipperKeywordIntent").\
+            require("InternalToogleKlipperKeyword").build()
+        self.register_intent(internals_toogleklipper_plasmadesktop_skill_intent, self.handle_internals_toogleklipper_plasmadesktop_skill_intent)
+        
+        internals_clearklipper_plasmadesktop_skill_intent = IntentBuilder("ClearKlipperKeywordIntent").\
+            require("InternalClearKlipperKeyword").build()
+        self.register_intent(internals_clearklipper_plasmadesktop_skill_intent, self.handle_internals_clearklipper_plasmadesktop_skill_intent)
 
-    
     def handle_internals_switchuser_plasma_skill_intent(self, message):
         
         bus = dbus.SessionBus()
@@ -193,7 +200,17 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
             self.speak("Touchpad Disable")
         else:
             self.speak("Touchpad toggle not found, valid toggle's are: touchpad enable, touchpad disable")
-
+            
+    def handle_internals_toogleklipper_plasmadesktop_skill_intent(self, message):
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.kde.klipper","/klipper") 
+        remote_object.showKlipperPopupMenu(dbus_interface = "org.kde.klipper.klipper")
+    
+    def handle_internals_clearklipper_plasmadesktop_skill_intent(self, message):
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.kde.klipper","/klipper") 
+        remote_object.clearClipboardHistory(dbus_interface = "org.kde.klipper.klipper")
+ 
     def stop(self):
         pass
 
