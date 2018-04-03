@@ -76,6 +76,7 @@ Working features:
 * Touchpad Enable/Disable
 * Next/Previous Desktop
 * Suspend/Resume Compositing
+* System Summary
 
 Known issues:
 * None
