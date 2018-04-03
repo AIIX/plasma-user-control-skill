@@ -1,5 +1,8 @@
 import sys
 import dbus
+import psutil
+import platform
+import datetime
 from traceback import print_exc
 from os.path import dirname
 from adapt.intent import IntentBuilder
@@ -88,6 +91,10 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         internals_resumecompositing_plasmadesktop_skill_intent = IntentBuilder("ResumeCompositingKeywordIntent").\
             require("InternalResumeCompositingKeyword").build()
         self.register_intent(internals_resumecompositing_plasmadesktop_skill_intent, self.handle_internals_resumecompositing_plasmadesktop_skill_intent)
+        
+        internals_systemsummary_plasmadesktop_skill_intent = IntentBuilder("SystemSummaryKeywordIntent").\
+            require("InternalSystemSummaryKeyword").build()
+        self.register_intent(internals_systemsummary_plasmadesktop_skill_intent, self.handle_internals_systemsummary_plasmadesktop_skill_intent)
 
 
     def handle_internals_switchuser_plasma_skill_intent(self, message):
@@ -248,7 +255,21 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         remote_object = bus.get_object("org.kde.KWin","/Compositor") 
         remote_object.resume(dbus_interface = "org.kde.kwin.Compositing")
 
- 
+    def handle_internals_systemsummary_plasmadesktop_skill_intent(self, message):
+        uname_info = platform.uname()
+        uname_os = uname_info[0]
+        uname_systemversion = uname_info[1]
+        uname_kernelversion = uname_info[2]
+        cores = psutil.cpu_count()
+        cpu_usage = psutil.cpu_percent()
+        memory_usage = psutil.virtual_memory()[2]
+        disk_usage = psutil.disk_usage('/')[3]
+        online_time = datetime.datetime.fromtimestamp(psutil.boot_time())
+        online_since = online_time.strftime("%A %d. %B %Y")
+        reply = "I am currently running on {0} version {1}. This system is named {2} and has {3} CPU cores. Current Disk utilization is {4} percent. Current CPU utilization is {5} percent. Current Memory utilization is {6} percent. System is online since {7}.".format(uname_os, uname_kernelversion, uname_systemversion, cores, disk_usage, cpu_usage, memory_usage, online_since)
+        self.speak(reply)
+        
+        
     def stop(self):
         pass
 
