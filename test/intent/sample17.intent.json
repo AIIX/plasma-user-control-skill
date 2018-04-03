@@ -1,0 +1,7 @@
+{
+  "utterance": "resume",
+  "intent_type": "ResumeCompositingKeywordIntent",
+  "intent": {
+    "InternalResumeCompositingKeyword": "compositing"
+  }
+}

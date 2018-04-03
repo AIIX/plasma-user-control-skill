@@ -72,6 +72,23 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         internals_clearklipper_plasmadesktop_skill_intent = IntentBuilder("ClearKlipperKeywordIntent").\
             require("InternalClearKlipperKeyword").build()
         self.register_intent(internals_clearklipper_plasmadesktop_skill_intent, self.handle_internals_clearklipper_plasmadesktop_skill_intent)
+        
+        internals_nextdesktop_plasmadesktop_skill_intent = IntentBuilder("NextDesktopKeywordIntent").\
+            require("InternalNextDesktopKeyword").build()
+        self.register_intent(internals_nextdesktop_plasmadesktop_skill_intent, self.handle_internals_nextdesktop_plasmadesktop_skill_intent)
+        
+        internals_previousdesktop_plasmadesktop_skill_intent = IntentBuilder("PreviousDesktopKeywordIntent").\
+            require("InternalPreviousDesktopKeyword").build()
+        self.register_intent(internals_previousdesktop_plasmadesktop_skill_intent, self.handle_internals_previousdesktop_plasmadesktop_skill_intent)
+        
+        internals_suspendcompositing_plasmadesktop_skill_intent = IntentBuilder("SuspendCompositingKeywordIntent").\
+            require("InternalSuspendCompositingKeyword").build()
+        self.register_intent(internals_suspendcompositing_plasmadesktop_skill_intent, self.handle_internals_suspendcompositing_plasmadesktop_skill_intent)
+        
+        internals_resumecompositing_plasmadesktop_skill_intent = IntentBuilder("ResumeCompositingKeywordIntent").\
+            require("InternalResumeCompositingKeyword").build()
+        self.register_intent(internals_resumecompositing_plasmadesktop_skill_intent, self.handle_internals_resumecompositing_plasmadesktop_skill_intent)
+
 
     def handle_internals_switchuser_plasma_skill_intent(self, message):
         
@@ -210,6 +227,27 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.kde.klipper","/klipper") 
         remote_object.clearClipboardHistory(dbus_interface = "org.kde.klipper.klipper")
+        
+    def handle_internals_nextdesktop_plasmadesktop_skill_intent(self, message):
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.kde.KWin","/KWin") 
+        remote_object.nextDesktop(dbus_interface = "org.kde.KWin")
+ 
+    def handle_internals_previousdesktop_plasmadesktop_skill_intent(self, message):
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.kde.KWin","/KWin") 
+        remote_object.previousDesktop(dbus_interface = "org.kde.KWin")
+        
+    def handle_internals_suspendcompositing_plasmadesktop_skill_intent(self, message):
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.kde.KWin","/Compositor") 
+        remote_object.suspend(dbus_interface = "org.kde.kwin.Compositing")
+        
+    def handle_internals_resumecompositing_plasmadesktop_skill_intent(self, message):
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.kde.KWin","/Compositor") 
+        remote_object.resume(dbus_interface = "org.kde.kwin.Compositing")
+
  
     def stop(self):
         pass
