@@ -96,6 +96,21 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
             require("InternalSystemSummaryKeyword").build()
         self.register_intent(internals_systemsummary_plasmadesktop_skill_intent, self.handle_internals_systemsummary_plasmadesktop_skill_intent)
 
+        internals_addpaneltop_plasmadesktop_skill_intent = IntentBuilder("AddTopPanelDesktopKeywordIntent").\
+            require("InternalAddTopPanelKeyword").build()
+        self.register_intent(internals_addpaneltop_plasmadesktop_skill_intent, self.handle_internals_addpaneltop_plasmadesktop_skill_intent)
+        
+        internals_addpanelleft_plasmadesktop_skill_intent = IntentBuilder("AddLeftPanelDesktopKeywordIntent").\
+            require("InternalAddLeftPanelKeyword").build()
+        self.register_intent(internals_addpanelleft_plasmadesktop_skill_intent, self.handle_internals_addpanelleft_plasmadesktop_skill_intent)
+
+        internals_addpanelright_plasmadesktop_skill_intent = IntentBuilder("AddRightPanelDesktopKeywordIntent").\
+            require("InternalAddRightPanelKeyword").build()
+        self.register_intent(internals_addpanelright_plasmadesktop_skill_intent, self.handle_internals_addpanelright_plasmadesktop_skill_intent)
+
+        internals_addpanelbottom_plasmadesktop_skill_intent = IntentBuilder("AddBottomPanelDesktopKeywordIntent").\
+            require("InternalAddBottomPanelKeyword").build()
+        self.register_intent(internals_addpanelbottom_plasmadesktop_skill_intent, self.handle_internals_addpanelbottom_plasmadesktop_skill_intent)
 
     def handle_internals_switchuser_plasma_skill_intent(self, message):
         
@@ -269,7 +284,30 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         reply = "I am currently running on {0} version {1}. This system is named {2} and has {3} CPU cores. Current Disk utilization is {4} percent. Current CPU utilization is {5} percent. Current Memory utilization is {6} percent. System is online since {7}.".format(uname_os, uname_kernelversion, uname_systemversion, cores, disk_usage, cpu_usage, memory_usage, online_since)
         self.speak(reply)
         
+    def handle_internals_addpaneltop_plasmadesktop_skill_intent(self, message):
+        topJsc = 'var plasma = getApiVersion(1); var toppanel = new plasma.Panel; toppanel.location = "top"; toppanel.height = gridUnit * 2;'
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
+        remote_object.evaluateScript(topJsc)
+    
+    def handle_internals_addpanelleft_plasmadesktop_skill_intent(self, message):
+        leftJsc = 'var plasma = getApiVersion(1); var leftpanel = new plasma.Panel; leftpanel.location = "left"; leftpanel.height = gridUnit * 2;'
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
+        remote_object.evaluateScript(leftJsc)
         
+    def handle_internals_addpanelright_plasmadesktop_skill_intent(self, message):
+        rightJsc = 'var plasma = getApiVersion(1); var rightpanel = new plasma.Panel; rightpanel.location = "right"; rightpanel.height = gridUnit * 2;'
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
+        remote_object.evaluateScript(rightJsc)
+        
+    def handle_internals_addpanelbottom_plasmadesktop_skill_intent(self, message):
+        bottomJsc = 'var plasma = getApiVersion(1); var bottompanel = new plasma.Panel; bottompanel.location = "bottom"; bottompanel.height = gridUnit * 2;'
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
+        remote_object.evaluateScript(bottomJsc)
+            
     def stop(self):
         pass
 
