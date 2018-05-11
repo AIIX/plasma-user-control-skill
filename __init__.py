@@ -1,3 +1,7 @@
+"""
+Plasma User Control Mycroft Skill.
+"""
+
 import sys
 import dbus
 import psutil
@@ -6,135 +10,68 @@ import datetime
 from traceback import print_exc
 from os.path import dirname
 from adapt.intent import IntentBuilder
-from mycroft.skills.core import MycroftSkill
+from mycroft.skills.core import MycroftSkill, intent_handler
 from mycroft.util.log import getLogger
 
 __author__ = 'aix'
 
 LOGGER = getLogger(__name__)
 
+
 class InternalsPlasmaDesktopSkill(MycroftSkill):
+    """
+    Plasma User Control Skill Class.
+    """
 
-    # The constructor of the skill, which calls MycroftSkill's constructor
     def __init__(self):
-        super(InternalsPlasmaDesktopSkill, self).__init__(name="InternalsPlasmaDesktopSkill")
-        
-    # This method loads the files needed for the skill's functioning, and
-    # creates and registers each intent that the skill uses
-    def initialize(self):
-        self.load_data_files(dirname(__file__))
-
-        internals_switchuser_plasma_skill_intent = IntentBuilder("SwitchUserKeywordIntent").\
-            require("InternalSwitchUserKeyword").build()
-        self.register_intent(internals_switchuser_plasma_skill_intent, self.handle_internals_switchuser_plasma_skill_intent)
-        
-        internals_lock_plasma_skill_intent = IntentBuilder("LockKeywordIntent").\
-            require("InternalLockDesktopKeyword").build()
-        self.register_intent(internals_lock_plasma_skill_intent, self.handle_internals_lock_plasma_skill_intent)
-        
-        internals_logout_plasma_skill_intent = IntentBuilder("LogoutKeywordIntent").\
-            require("InternalLogoutDesktopKeyword").build()
-        self.register_intent(internals_logout_plasma_skill_intent, self.handle_internals_logout_plasma_skill_intent)
-        
-        internals_increasebrightness_plasma_skill_intent = IntentBuilder("IncreaseBrightnessKeywordIntent").\
-            require("InternalIncreaseBrightnessDesktopKeyword").build()
-        self.register_intent(internals_increasebrightness_plasma_skill_intent, self.handle_internals_increasebrightness_plasma_skill_intent)
-        
-        internals_decreasebrightness_plasma_skill_intent = IntentBuilder("DecreaseBrightnessKeywordIntent").\
-            require("InternalDecreaseBrightnessDesktopKeyword").build()
-        self.register_intent(internals_decreasebrightness_plasma_skill_intent, self.handle_internals_decreasebrightness_plasma_skill_intent)
-
-        internals_maximumbrightness_plasma_skill_intent = IntentBuilder("MaximumBrightnessKeywordIntent").\
-            require("InternalMaximumBrightnessDesktopKeyword").build()
-        self.register_intent(internals_maximumbrightness_plasma_skill_intent, self.handle_internals_maximumbrightness_plasma_skill_intent)
-        
-        internals_minimumbrightness_plasma_skill_intent = IntentBuilder("MinimumBrightnessKeywordIntent").\
-            require("InternalMinimumBrightnessDesktopKeyword").build()
-        self.register_intent(internals_minimumbrightness_plasma_skill_intent, self.handle_internals_minimumbrightness_plasma_skill_intent)
-        
-        internals_movemainpanel_plasma_skill_intent = IntentBuilder("MoveMainPanelKeywordIntent").\
-            require("InternalMoveMainPanelDesktopKeyword").build()
-        self.register_intent(internals_movemainpanel_plasma_skill_intent, self.handle_internals_movemainpanel_plasma_skill_intent)
-        
-        internals_addwidget_plasmapanel_skill_intent = IntentBuilder("AddWigetToPanelKeywordIntent").\
-            require("InternalAddWidgetToPanelDesktopKeyword").build()
-        self.register_intent(internals_addwidget_plasmapanel_skill_intent, self.handle_internals_addwidget_plasmapanel_skill_intent)
-
-        internals_addwidget_plasmadesktop_skill_intent = IntentBuilder("AddWigetToDesktopKeywordIntent").\
-            require("InternalAddWidgetToDesktopKeyword").build()
-        self.register_intent(internals_addwidget_plasmadesktop_skill_intent, self.handle_internals_addwidget_plasmadesktop_skill_intent)
-        
-        internals_toogletouchpad_plasmadesktop_skill_intent = IntentBuilder("ToogleTouchPadKeywordIntent").\
-            require("InternalToogleTouchPadKeyword").build()
-        self.register_intent(internals_toogletouchpad_plasmadesktop_skill_intent, self.handle_internals_toogletouchpad_plasmadesktop_skill_intent)
-        
-        internals_toogleklipper_plasmadesktop_skill_intent = IntentBuilder("ShowKlipperKeywordIntent").\
-            require("InternalToogleKlipperKeyword").build()
-        self.register_intent(internals_toogleklipper_plasmadesktop_skill_intent, self.handle_internals_toogleklipper_plasmadesktop_skill_intent)
-        
-        internals_clearklipper_plasmadesktop_skill_intent = IntentBuilder("ClearKlipperKeywordIntent").\
-            require("InternalClearKlipperKeyword").build()
-        self.register_intent(internals_clearklipper_plasmadesktop_skill_intent, self.handle_internals_clearklipper_plasmadesktop_skill_intent)
-        
-        internals_nextdesktop_plasmadesktop_skill_intent = IntentBuilder("NextDesktopKeywordIntent").\
-            require("InternalNextDesktopKeyword").build()
-        self.register_intent(internals_nextdesktop_plasmadesktop_skill_intent, self.handle_internals_nextdesktop_plasmadesktop_skill_intent)
-        
-        internals_previousdesktop_plasmadesktop_skill_intent = IntentBuilder("PreviousDesktopKeywordIntent").\
-            require("InternalPreviousDesktopKeyword").build()
-        self.register_intent(internals_previousdesktop_plasmadesktop_skill_intent, self.handle_internals_previousdesktop_plasmadesktop_skill_intent)
-        
-        internals_suspendcompositing_plasmadesktop_skill_intent = IntentBuilder("SuspendCompositingKeywordIntent").\
-            require("InternalSuspendCompositingKeyword").build()
-        self.register_intent(internals_suspendcompositing_plasmadesktop_skill_intent, self.handle_internals_suspendcompositing_plasmadesktop_skill_intent)
-        
-        internals_resumecompositing_plasmadesktop_skill_intent = IntentBuilder("ResumeCompositingKeywordIntent").\
-            require("InternalResumeCompositingKeyword").build()
-        self.register_intent(internals_resumecompositing_plasmadesktop_skill_intent, self.handle_internals_resumecompositing_plasmadesktop_skill_intent)
-        
-        internals_systemsummary_plasmadesktop_skill_intent = IntentBuilder("SystemSummaryKeywordIntent").\
-            require("InternalSystemSummaryKeyword").build()
-        self.register_intent(internals_systemsummary_plasmadesktop_skill_intent, self.handle_internals_systemsummary_plasmadesktop_skill_intent)
-
-        internals_addpaneltop_plasmadesktop_skill_intent = IntentBuilder("AddTopPanelDesktopKeywordIntent").\
-            require("InternalAddTopPanelKeyword").build()
-        self.register_intent(internals_addpaneltop_plasmadesktop_skill_intent, self.handle_internals_addpaneltop_plasmadesktop_skill_intent)
-        
-        internals_addpanelleft_plasmadesktop_skill_intent = IntentBuilder("AddLeftPanelDesktopKeywordIntent").\
-            require("InternalAddLeftPanelKeyword").build()
-        self.register_intent(internals_addpanelleft_plasmadesktop_skill_intent, self.handle_internals_addpanelleft_plasmadesktop_skill_intent)
-
-        internals_addpanelright_plasmadesktop_skill_intent = IntentBuilder("AddRightPanelDesktopKeywordIntent").\
-            require("InternalAddRightPanelKeyword").build()
-        self.register_intent(internals_addpanelright_plasmadesktop_skill_intent, self.handle_internals_addpanelright_plasmadesktop_skill_intent)
-
-        internals_addpanelbottom_plasmadesktop_skill_intent = IntentBuilder("AddBottomPanelDesktopKeywordIntent").\
-            require("InternalAddBottomPanelKeyword").build()
-        self.register_intent(internals_addpanelbottom_plasmadesktop_skill_intent, self.handle_internals_addpanelbottom_plasmadesktop_skill_intent)
-
+        """
+        Initialization
+        """
+        super(InternalsPlasmaDesktopSkill, self).__init__(
+            name="InternalsPlasmaDesktopSkill")
+                 
+    @intent_handler(IntentBuilder("SwitchUserKeywordIntent").
+                    require("InternalSwitchUserKeyword").build())
     def handle_internals_switchuser_plasma_skill_intent(self, message):
-        
+        """
+        Switch User
+        """        
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.kde.ksmserver","/KSMServer") 
         remote_object.openSwitchUserDialog(dbus_interface = "org.kde.KSMServerInterface")
         
         self.speak_dialog("internals.switchuser")
     
+    @intent_handler(IntentBuilder("LogoutKeywordIntent").
+                    require("InternalLogoutDesktopKeyword").build())
     def handle_internals_logout_plasma_skill_intent(self, message):        
+        """
+        Log Out
+        """
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.kde.ksmserver","/KSMServer") 
         remote_object.logout(1, 0, 0, dbus_interface = "org.kde.KSMServerInterface")
         
         self.speak_dialog("internals.logout")
     
+    @intent_handler(IntentBuilder("LockKeywordIntent").
+                    require("InternalLockDesktopKeyword").build())
     def handle_internals_lock_plasma_skill_intent(self, message):
+        """
+        Lock Screen
+        """
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.kde.ksmserver","/ScreenSaver") 
         remote_object.Lock(dbus_interface = "org.freedesktop.ScreenSaver")
         
         self.speak_dialog("internals.lock")
 
+    @intent_handler(IntentBuilder("IncreaseBrightnessKeywordIntent").
+                    require("InternalIncreaseBrightnessDesktopKeyword").build())
     def handle_internals_increasebrightness_plasma_skill_intent(self, message):
+        """
+        Increase Brightness
+        """        
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.freedesktop.PowerManagement","/org/kde/Solid/PowerManagement/Actions/BrightnessControl")
         currentbrightness = remote_object.brightness(dbus_interface = "org.kde.Solid.PowerManagement.Actions.BrightnessControl")
@@ -143,8 +80,13 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
             remote_object.setBrightness(currentbrightness, dbus_interface = "org.kde.Solid.PowerManagement.Actions.BrightnessControl")
         
         self.speak_dialog("internals.increasebrightness")
-        
+    
+    @intent_handler(IntentBuilder("DecreaseBrightnessKeywordIntent").
+                    require("InternalDecreaseBrightnessDesktopKeyword").build())
     def handle_internals_decreasebrightness_plasma_skill_intent(self, message):
+        """
+        Decrease Brightness
+        """        
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.freedesktop.PowerManagement","/org/kde/Solid/PowerManagement/Actions/BrightnessControl")
         currentbrightness = remote_object.brightness(dbus_interface = "org.kde.Solid.PowerManagement.Actions.BrightnessControl")
@@ -154,21 +96,36 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         
         self.speak_dialog("internals.decreasebrightness")
         
+    @intent_handler(IntentBuilder("MaximumBrightnessKeywordIntent").
+                    require("InternalMaximumBrightnessDesktopKeyword").build())    
     def handle_internals_maximumbrightness_plasma_skill_intent(self, message):
+        """
+        Maximum Brightness
+        """
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.freedesktop.PowerManagement","/org/kde/Solid/PowerManagement/Actions/BrightnessControl") 
         remote_object.setBrightness(1500, dbus_interface = "org.kde.Solid.PowerManagement.Actions.BrightnessControl")
         
         self.speak_dialog("internals.maximumbrightness")
-        
+    
+    @intent_handler(IntentBuilder("MinimumBrightnessKeywordIntent").
+                    require("InternalMinimumBrightnessDesktopKeyword").build())
     def handle_internals_minimumbrightness_plasma_skill_intent(self, message):
+        """
+        Minimum Brightness
+        """        
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.freedesktop.PowerManagement","/org/kde/Solid/PowerManagement/Actions/BrightnessControl") 
         remote_object.setBrightness(25, dbus_interface = "org.kde.Solid.PowerManagement.Actions.BrightnessControl")
         
         self.speak_dialog("internals.minimumbrightness")
-        
+    
+    @intent_handler(IntentBuilder("MoveMainPanelKeywordIntent").
+                    require("InternalMoveMainPanelDesktopKeyword").build())
     def handle_internals_movemainpanel_plasma_skill_intent(self, message):
+        """
+        Move Main Panel
+        """
         utterance = message.data.get('utterance').lower()
         utterance = utterance.replace(message.data.get('InternalMoveMainPanelDesktopKeyword'), '')
         getloc = utterance.replace(" ", "")
@@ -196,8 +153,13 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
             self.speak_dialog("internals.changeloc")
         else:
             self.speak_dialog("internals.badlocation")
-            
+    
+    @intent_handler(IntentBuilder("AddWigetToPanelKeywordIntent").
+                    require("InternalAddWidgetToPanelDesktopKeyword").build())
     def handle_internals_addwidget_plasmapanel_skill_intent(self, message):
+        """
+        Add Widget To Panel
+        """
         utterance = message.data.get('utterance').lower()
         utterance = utterance.replace(message.data.get('InternalAddWidgetToPanelDesktopKeyword'), '')
         getwidname = utterance.replace(" ", "")
@@ -208,8 +170,13 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
         remote_object.evaluateScript(sendJsc)
         self.speak_dialog("internals.widadded")
-        
+    
+    @intent_handler(IntentBuilder("AddWigetToDesktopKeywordIntent").
+                    require("InternalAddWidgetToDesktopKeyword").build())
     def handle_internals_addwidget_plasmadesktop_skill_intent(self, message):
+        """
+        Add Wiget To Desktop
+        """        
         utterance = message.data.get('utterance').lower()
         utterance = utterance.replace(message.data.get('InternalAddWidgetToDesktopKeyword'), '')
         getwidname = utterance.replace(" ", "")
@@ -220,8 +187,13 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
         remote_object.evaluateScript(sendJsc)
         self.speak_dialog("internals.widadded")
-        
+    
+    @intent_handler(IntentBuilder("ToogleTouchPadKeywordIntent").
+                    require("InternalToogleTouchPadKeyword").build())
     def handle_internals_toogletouchpad_plasmadesktop_skill_intent(self, message):
+        """
+        Handle Touchpad
+        """        
         utterance = message.data.get('utterance').lower()
         utterance = utterance.replace(message.data.get('InternalToogleTouchPadKeyword'), '')
         gettogglequery = utterance.replace(" ", "")
@@ -239,38 +211,73 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
             self.speak("Touchpad Disable")
         else:
             self.speak("Touchpad toggle not found, valid toggle's are: touchpad enable, touchpad disable")
-            
+    
+    @intent_handler(IntentBuilder("ShowKlipperKeywordIntent").
+                    require("InternalToogleKlipperKeyword").build())
     def handle_internals_toogleklipper_plasmadesktop_skill_intent(self, message):
+        """
+        Show Klipper
+        """        
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.kde.klipper","/klipper") 
         remote_object.showKlipperPopupMenu(dbus_interface = "org.kde.klipper.klipper")
-    
+   
+    @intent_handler(IntentBuilder("ClearKlipperKeywordIntent").
+                    require("InternalClearKlipperKeyword").build())
     def handle_internals_clearklipper_plasmadesktop_skill_intent(self, message):
+        """
+        Clear Klipper
+        """
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.kde.klipper","/klipper") 
         remote_object.clearClipboardHistory(dbus_interface = "org.kde.klipper.klipper")
-        
+    
+    @intent_handler(IntentBuilder("NextDesktopKeywordIntent").
+                    require("InternalNextDesktopKeyword").build())
     def handle_internals_nextdesktop_plasmadesktop_skill_intent(self, message):
+        """
+        Go To Next Virtual Desktop
+        """        
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.kde.KWin","/KWin") 
         remote_object.nextDesktop(dbus_interface = "org.kde.KWin")
  
+    @intent_handler(IntentBuilder("PreviousDesktopKeywordIntent").
+                    require("InternalPreviousDesktopKeyword").build())
     def handle_internals_previousdesktop_plasmadesktop_skill_intent(self, message):
+        """
+        Go To Previous Virtual Desktop
+        """
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.kde.KWin","/KWin") 
         remote_object.previousDesktop(dbus_interface = "org.kde.KWin")
-        
+    
+    @intent_handler(IntentBuilder("SuspendCompositingKeywordIntent").
+                    require("InternalSuspendCompositingKeyword").build())
     def handle_internals_suspendcompositing_plasmadesktop_skill_intent(self, message):
+        """
+        Suspend Compositing
+        """
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.kde.KWin","/Compositor") 
         remote_object.suspend(dbus_interface = "org.kde.kwin.Compositing")
         
+    @intent_handler(IntentBuilder("ResumeCompositingKeywordIntent").
+                    require("InternalResumeCompositingKeyword").build())    
     def handle_internals_resumecompositing_plasmadesktop_skill_intent(self, message):
+        """
+        Resume Compositing
+        """
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.kde.KWin","/Compositor") 
         remote_object.resume(dbus_interface = "org.kde.kwin.Compositing")
 
+    @intent_handler(IntentBuilder("SystemSummaryKeywordIntent").
+                    require("InternalSystemSummaryKeyword").build())
     def handle_internals_systemsummary_plasmadesktop_skill_intent(self, message):
+        """
+        Speak System Summary
+        """
         uname_info = platform.uname()
         uname_os = uname_info[0]
         uname_systemversion = uname_info[1]
@@ -283,35 +290,60 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         online_since = online_time.strftime("%A %d. %B %Y")
         reply = "I am currently running on {0} version {1}. This system is named {2} and has {3} CPU cores. Current Disk utilization is {4} percent. Current CPU utilization is {5} percent. Current Memory utilization is {6} percent. System is online since {7}.".format(uname_os, uname_kernelversion, uname_systemversion, cores, disk_usage, cpu_usage, memory_usage, online_since)
         self.speak(reply)
-        
+    
+    @intent_handler(IntentBuilder("AddTopPanelDesktopKeywordIntent").
+                    require("InternalAddTopPanelKeyword").build())
     def handle_internals_addpaneltop_plasmadesktop_skill_intent(self, message):
+        """
+        Add New Panel To Top
+        """
         topJsc = 'var plasma = getApiVersion(1); var toppanel = new plasma.Panel; toppanel.location = "top"; toppanel.height = gridUnit * 2;'
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
         remote_object.evaluateScript(topJsc)
     
+    @intent_handler(IntentBuilder("AddLeftPanelDesktopKeywordIntent").
+                    require("InternalAddLeftPanelKeyword").build())
     def handle_internals_addpanelleft_plasmadesktop_skill_intent(self, message):
+        """
+        Add New Panel To Left
+        """
         leftJsc = 'var plasma = getApiVersion(1); var leftpanel = new plasma.Panel; leftpanel.location = "left"; leftpanel.height = gridUnit * 2;'
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
         remote_object.evaluateScript(leftJsc)
-        
+    
+    @intent_handler(IntentBuilder("AddRightPanelDesktopKeywordIntent").
+                    require("InternalAddRightPanelKeyword").build())
     def handle_internals_addpanelright_plasmadesktop_skill_intent(self, message):
+        """
+        Add New Panel To Right
+        """
         rightJsc = 'var plasma = getApiVersion(1); var rightpanel = new plasma.Panel; rightpanel.location = "right"; rightpanel.height = gridUnit * 2;'
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
         remote_object.evaluateScript(rightJsc)
-        
+    
+    @intent_handler(IntentBuilder("AddBottomPanelDesktopKeywordIntent").
+                    require("InternalAddBottomPanelKeyword").build())
     def handle_internals_addpanelbottom_plasmadesktop_skill_intent(self, message):
+        """
+        Add New Panel To Bottom
+        """
         bottomJsc = 'var plasma = getApiVersion(1); var bottompanel = new plasma.Panel; bottompanel.location = "bottom"; bottompanel.height = gridUnit * 2;'
         bus = dbus.SessionBus()
         remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
         remote_object.evaluateScript(bottomJsc)
             
     def stop(self):
+        """
+        Mycroft Stop Function
+        """
         pass
 
-# The "create_skill()" method is used to create an instance of the skill.
-# Note that it's outside the class itself.
+
 def create_skill():
+    """
+    Mycroft Create Skill Function
+    """
     return InternalsPlasmaDesktopSkill()
