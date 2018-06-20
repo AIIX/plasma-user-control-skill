@@ -1,85 +1,40 @@
-# Mycroft plasma-user-control-skill
+## Plasma-User-Control-Skill
 This skill integrates Plasma 5 Desktop Internals with Mycroft which enables users to Lock Screen, Switch Users, Logout, Control Brightness, Control Panel Positions, Control Klipper, Control Workspaces, Control Compisitor, Add Widgets on Plasma Desktop.
 
-#### Installation of skill:
-* Download or Clone Git (run: git clone https://github.com/AIIX/plasma-user-control-skill inside /opt/mycroft/skills)
-* Create /opt/mycroft/skills folder if it does not exist
-* Extract Downloaded Skill into a folder. "plasma-user-control-skill". (Clone does not require this step)
-* Copy the plasma-user-control-skill folder to /opt/mycroft/skills/ folder
+## Description 
+### This skill integrates Plasma 5 Desktop Internals with Mycroft which enables users to control: 
+- Lock Screen
+- Switch Users 
+- Logout 
+- Control Brightness  
+- Control Panel Positions 
+- Control Klipper 
+- Control Work-spaces 
+- Control Compositor 
+- Add Widgets on Plasma Desktop
+- Add Widgets on Plasma Panel / Desktop
+- Give System Summary
+- Etc..
 
-#### Installation of requirements:
-##### Fedora: 
-- sudo dnf install dbus-python
-- From terminal: cp -R /usr/lib64/python2.7/site-packages/dbus* /home/$USER/.virtualenvs/mycroft/lib/python2.7/site-packages/
-- From terminal: cp /usr/lib64/python2.7/site-packages/_dbus* /home/$USER/.virtualenvs/mycroft/lib/python2.7/site-packages/
+## Examples 
+* "Hey Mycroft, lock screen"
+* "Hey Mycroft, switch current user"
+* "Hey Mycroft, logout of the current session"
+* "Hey Mycroft, increase the brightness"
+* "Hey Mycroft, increase to maximum brightness"
+* "Hey Mycroft, decrease the brightness"
+* "Hey Mycroft, decrease to minimum brightness"
+* "Hey Mycroft, move panel to top/bottom/left/right"
+* "Hey Mycroft, Add widget to desktop 'widgetname'"
+* "Hey Mycroft, Add widget to panel 'widgetname'"
+* "Hey Mycroft, Touchpad Enable / Disable"
+* "Hey Mycroft, show clipper"
+* "Hey Mycroft, clear clipboard"
+* "Hey Mycroft, Add panel to the top/bottom/left/right"
+* "Hey Mycroft, Give me information about this system"
 
-##### Kubuntu / KDE Neon: 
-- sudo apt install python-dbus
-- From terminal: cp -R /usr/lib/python2.7/dist-packages/dbus* /home/$USER/.virtualenvs/mycroft/lib/python2.7/site-packages/
-- From terminal: cp /usr/lib/python2.7/dist-packages/_dbus* /home/$USER/.virtualenvs/mycroft/lib/python2.7/site-packages/
+## Credits 
+Aix (Aix.m@outlook.com) (Github: https://github.com/AIIX)
 
-* For other distributions:
-- Python Dbus package is required and copying the Python Dbus folder and lib from your system python install over to /home/$USER/.virtualenvs/mycroft/lib/python2.7/site-packages/.
-
-##### How To Use: 
-###### Lockscreen
-- "Hey Mycroft, lock the screen "
-- "Hey Mycroft, lock screen "
-
-###### Switch Users
-- "Hey Mycroft, switch current user "
-- "Hey Mycroft, switch user "
-
-###### Logout Users
-- "Hey Mycroft, logout of the current session "
-- "Hey Mycroft, logout session "
-
-###### Increase Brightness
-- "Hey Mycroft, increase the brightness "
-- "Hey Mycroft, increase brightness "
-
-###### Maximum Brightness
-- "Hey Mycroft, increase to maximum brightness "
-- "Hey Mycroft, maximum brightness "
-
-###### Decrease Brightness
-- "Hey Mycroft, decrease the brightness "
-- "Hey Mycroft, decrease brightness "
-
-###### Minimum Brightness
-- "Hey Mycroft, decrease to minimum brightness "
-- "Hey Mycroft, minimum brightness "
-
-###### Change Location of Default Panel
-- "Hey Mycroft, move panel to top/bottom/left/right"
-- "Hey Mycroft, move the default panel to top/bottom/left/right"
-
-###### Add Widget To Desktop
-- "Hey Mycroft, Add widget to desktop 'widgetname'"
-
-###### Add Widget To Default Panel
-- "Hey Mycroft, Add widget to panel 'widgetname'"
-
-###### Enable / Disable Touchpad
-- "Hey Mycroft, Touchpad Enable"
-- "Hey Mycroft, Touchpad Disable"
-
-## Current state
-
-Working features:
-* Add Widgets to Desktop/Panel
-* Lock Screen
-* Switch Users
-* Logout
-* Brightness Control
-* Moving Default Panel
-* Touchpad Enable/Disable
-* Next/Previous Desktop
-* Suspend/Resume Compositing
-* System Summary
-
-Known issues:
-* None
-
-TODO:
-* None
+## Require 
+platform_plasmoid 
