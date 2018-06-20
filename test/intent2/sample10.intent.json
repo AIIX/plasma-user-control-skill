@@ -1,7 +1,0 @@
-{
-  "utterance": "add widget to desktop notes",
-  "intent_type": "AddWigetToDesktopKeywordIntent",
-  "intent": {
-    "InternalAddWidgetToDesktopKeyword": "add widget to desktop"
-  }
-}

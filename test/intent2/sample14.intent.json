@@ -1,7 +1,0 @@
-{
-  "utterance": "next desktop",
-  "intent_type": "NextDesktopKeywordIntent",
-  "intent": {
-    "InternalNextDesktopKeyword": "next desktop"
-  }
-}
