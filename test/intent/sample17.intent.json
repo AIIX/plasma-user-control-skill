@@ -2,6 +2,6 @@
   "utterance": "resume",
   "intent_type": "ResumeCompositingKeywordIntent",
   "intent": {
-    "InternalResumeCompositingKeyword": "compositing"
+    "InternalResumeCompositingKeyword": "resume compositing"
   }
 }

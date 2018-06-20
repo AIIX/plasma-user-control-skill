@@ -2,6 +2,6 @@
   "utterance": "clear",
   "intent_type": "ClearKlipperKeywordIntent",
   "intent": {
-    "InternalClearKlipperKeyword": "clipboard"
+    "InternalClearKlipperKeyword": "clear clipboard"
   }
 }

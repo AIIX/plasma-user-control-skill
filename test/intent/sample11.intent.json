@@ -2,6 +2,6 @@
   "utterance": "touchpad",
   "intent_type": "ToogleTouchPadKeywordIntent",
   "intent": {
-    "InternalToogleTouchPadKeyword": ""
+    "InternalToogleTouchPadKeyword": "touchpad enable"
   }
 }

@@ -2,6 +2,6 @@
   "utterance": "add a panel to the",
   "intent_type": "AddBottomPanelDesktopKeywordIntent",
   "intent": {
-    "InternalAddBottomPanelKeyword": "bottom"
+    "InternalAddBottomPanelKeyword": "add a panel to the bottom"
   }
 }

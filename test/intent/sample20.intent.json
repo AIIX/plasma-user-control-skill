@@ -2,6 +2,6 @@
   "utterance": "add a panel to the",
   "intent_type": "AddLeftPanelDesktopKeywordIntent",
   "intent": {
-    "InternalAddLeftPanelKeyword": "left"
+    "InternalAddLeftPanelKeyword": "add a panel to the left"
   }
 }

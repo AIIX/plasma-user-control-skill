@@ -2,6 +2,6 @@
   "utterance": "decrease to",
   "intent_type": "MinimumBrightnessKeywordIntent",
   "intent": {
-    "InternalLockDesktopKeyword": "minimum brightness"
+    "InternalLockDesktopKeyword": "decrease to minimum brightness"
   }
 }
