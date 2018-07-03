@@ -29,7 +29,19 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         """
         super(InternalsPlasmaDesktopSkill, self).__init__(
             name="InternalsPlasmaDesktopSkill")
-                 
+
+    @intent_handler(IntentBuilder("LockScreenIntent").
+                    require("LockScreenKeyword").build())
+    def handle_internals_lock_plasma_skill_intent(self, message):
+        """
+        Lock Screen
+        """
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.kde.ksmserver","/ScreenSaver") 
+        remote_object.Lock(dbus_interface = "org.freedesktop.ScreenSaver")
+        
+        self.speak_dialog("internals.lock")                 
+
     @intent_handler(IntentBuilder("SwitchUserKeywordIntent").
                     require("InternalSwitchUserKeyword").build())
     def handle_internals_switchuser_plasma_skill_intent(self, message):
@@ -53,18 +65,6 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         remote_object.logout(1, 0, 0, dbus_interface = "org.kde.KSMServerInterface")
         
         self.speak_dialog("internals.logout")
-    
-    @intent_handler(IntentBuilder("LockKeywordIntent").
-                    require("InternalLockDesktopKeyword").build())
-    def handle_internals_lock_plasma_skill_intent(self, message):
-        """
-        Lock Screen
-        """
-        bus = dbus.SessionBus()
-        remote_object = bus.get_object("org.kde.ksmserver","/ScreenSaver") 
-        remote_object.Lock(dbus_interface = "org.freedesktop.ScreenSaver")
-        
-        self.speak_dialog("internals.lock")
 
     @intent_handler(IntentBuilder("IncreaseBrightnessKeywordIntent").
                     require("InternalIncreaseBrightnessDesktopKeyword").build())
@@ -291,50 +291,40 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
         reply = "I am currently running on {0} version {1}. This system is named {2} and has {3} CPU cores. Current Disk utilization is {4} percent. Current CPU utilization is {5} percent. Current Memory utilization is {6} percent. System is online since {7}.".format(uname_os, uname_kernelversion, uname_systemversion, cores, disk_usage, cpu_usage, memory_usage, online_since)
         self.speak(reply)
     
-    @intent_handler(IntentBuilder("AddTopPanelDesktopKeywordIntent").
-                    require("InternalAddTopPanelKeyword").build())
-    def handle_internals_addpaneltop_plasmadesktop_skill_intent(self, message):
+    @intent_handler(IntentBuilder("AddPanelDesktopIntent").
+                    require("InternalAddPanelKeyword").build())
+    def handle_addpaneldesktop_intent(self, message):
         """
-        Add New Panel To Top
+        Add New Panel
         """
-        topJsc = 'var plasma = getApiVersion(1); var toppanel = new plasma.Panel; toppanel.location = "top"; toppanel.height = gridUnit * 2;'
-        bus = dbus.SessionBus()
-        remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
-        remote_object.evaluateScript(topJsc)
-    
-    @intent_handler(IntentBuilder("AddLeftPanelDesktopKeywordIntent").
-                    require("InternalAddLeftPanelKeyword").build())
-    def handle_internals_addpanelleft_plasmadesktop_skill_intent(self, message):
-        """
-        Add New Panel To Left
-        """
-        leftJsc = 'var plasma = getApiVersion(1); var leftpanel = new plasma.Panel; leftpanel.location = "left"; leftpanel.height = gridUnit * 2;'
-        bus = dbus.SessionBus()
-        remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
-        remote_object.evaluateScript(leftJsc)
-    
-    @intent_handler(IntentBuilder("AddRightPanelDesktopKeywordIntent").
-                    require("InternalAddRightPanelKeyword").build())
-    def handle_internals_addpanelright_plasmadesktop_skill_intent(self, message):
-        """
-        Add New Panel To Right
-        """
-        rightJsc = 'var plasma = getApiVersion(1); var rightpanel = new plasma.Panel; rightpanel.location = "right"; rightpanel.height = gridUnit * 2;'
-        bus = dbus.SessionBus()
-        remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
-        remote_object.evaluateScript(rightJsc)
-    
-    @intent_handler(IntentBuilder("AddBottomPanelDesktopKeywordIntent").
-                    require("InternalAddBottomPanelKeyword").build())
-    def handle_internals_addpanelbottom_plasmadesktop_skill_intent(self, message):
-        """
-        Add New Panel To Bottom
-        """
-        bottomJsc = 'var plasma = getApiVersion(1); var bottompanel = new plasma.Panel; bottompanel.location = "bottom"; bottompanel.height = gridUnit * 2;'
-        bus = dbus.SessionBus()
-        remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
-        remote_object.evaluateScript(bottomJsc)
-            
+        utterance = message.data.get('utterance').lower()
+        utterance = utterance.replace(message.data.get('InternalAddPanelKeyword'), '')
+        getloc = utterance.replace(" ", "")
+        location = getloc
+        
+        if location == "bottom":
+            bottomJsc = 'var plasma = getApiVersion(1); var bottompanel = new plasma.Panel; bottompanel.location = "bottom"; bottompanel.height = gridUnit * 2;'
+            bus = dbus.SessionBus()
+            remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
+            remote_object.evaluateScript(bottomJsc)
+        elif location == "top":
+            topJsc = 'var plasma = getApiVersion(1); var toppanel = new plasma.Panel; toppanel.location = "top"; toppanel.height = gridUnit * 2;'
+            bus = dbus.SessionBus()
+            remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
+            remote_object.evaluateScript(topJsc)
+        elif location == "left":
+            leftJsc = 'var plasma = getApiVersion(1); var leftpanel = new plasma.Panel; leftpanel.location = "left"; leftpanel.height = gridUnit * 2;'
+            bus = dbus.SessionBus()
+            remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
+            remote_object.evaluateScript(leftJsc)
+        elif location == "right":
+            rightJsc = 'var plasma = getApiVersion(1); var rightpanel = new plasma.Panel; rightpanel.location = "right"; rightpanel.height = gridUnit * 2;'
+            bus = dbus.SessionBus()
+            remote_object = bus.get_object("org.kde.plasmashell","/PlasmaShell") 
+            remote_object.evaluateScript(rightJsc)
+        else:
+            self.speak_dialog("internals.badlocation")        
+        
     def stop(self):
         """
         Mycroft Stop Function

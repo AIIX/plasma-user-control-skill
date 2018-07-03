@@ -1,7 +1,7 @@
 {
-  "utterance": "suspend",
+  "utterance": "suspend compositing",
   "intent_type": "SuspendCompositingKeywordIntent",
   "intent": {
-    "InternalSuspendCompositingKeyword": "compositing"
+    "InternalSuspendCompositingKeyword": "suspend compositing"
   }
 }

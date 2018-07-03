@@ -1,0 +1,7 @@
+{
+  "utterance": "logout of the current session",
+  "intent_type": "LogoutKeywordIntent",
+  "intent": {
+    "InternalLogoutDesktopKeyword": "logout of the current session"
+  }
+}

@@ -1,7 +1,7 @@
 {
-  "utterance": "increase to",
+  "utterance": "increase to maximum brightness",
   "intent_type": "MaximumBrightnessKeywordIntent",
   "intent": {
-    "InternalLockDesktopKeyword": "maximum brightness"
+    "InternalMaximumBrightnessDesktopKeyword": "increase to maximum brightness"
   }
 }

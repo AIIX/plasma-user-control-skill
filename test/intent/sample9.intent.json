@@ -1,7 +1,7 @@
 {
-  "utterance": "add widget to",
+  "utterance": "add widget to panel notes",
   "intent_type": "AddWigetToPanelKeywordIntent",
   "intent": {
-    "InternalAddWidgetToPanelDesktopKeyword": "panel "
+    "InternalAddWidgetToPanelDesktopKeyword": "add widget to panel"
   }
 }

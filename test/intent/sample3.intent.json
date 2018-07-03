@@ -1,7 +1,7 @@
 {
-  "utterance": "switch",
+  "utterance": "switch current user",
   "intent_type": "SwitchUserKeywordIntent",
   "intent": {
-    "InternalSwitchUserKeyword": "current user"
+    "InternalSwitchUserKeyword": "switch current user"
   }
 }

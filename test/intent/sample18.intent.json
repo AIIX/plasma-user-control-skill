@@ -1,7 +1,7 @@
 {
-  "utterance": "give me information",
+  "utterance": "give me information about this computer",
   "intent_type": "SystemSummaryKeywordIntent",
   "intent": {
-    "InternalSystemSummaryKeyword": "about this computer"
+    "InternalSystemSummaryKeyword": "give me information about this computer"
   }
 }

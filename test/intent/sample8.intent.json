@@ -1,7 +1,7 @@
 {
-  "utterance": "move the default",
+  "utterance": "move default panel to top",
   "intent_type": "MoveMainPanelKeywordIntent",
   "intent": {
-    "InternalLockDesktopKeyword": "panel to"
+    "InternalMoveMainPanelDesktopKeyword": "move default panel to"
   }
 }

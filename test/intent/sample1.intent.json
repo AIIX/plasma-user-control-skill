@@ -1,7 +1,7 @@
 {
-  "utterance": "lock",
-  "intent_type": "LockKeywordIntent",
+  "utterance": "lock screen",
+  "intent_type": "LockScreenIntent",
   "intent": {
-    "InternalLockDesktopKeyword": "screen"
+    "LockScreenKeyword": "lock screen"
   }
 }

@@ -1,7 +1,7 @@
 {
-  "utterance": "previous",
+  "utterance": "previous desktop",
   "intent_type": "PreviousDesktopKeywordIntent",
   "intent": {
-    "InternalPreviousDesktopKeyword": "desktop"
+    "InternalPreviousDesktopKeyword": "previous desktop"
   }
 }

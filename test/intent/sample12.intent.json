@@ -1,7 +1,7 @@
 {
-  "utterance": "show",
+  "utterance": "show clipboard",
   "intent_type": "ShowKlipperKeywordIntent",
   "intent": {
-    "InternalToogleKlipperKeyword": "clipboard"
+    "InternalToogleKlipperKeyword": "show clipboard"
   }
 }
