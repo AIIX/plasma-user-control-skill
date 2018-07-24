@@ -7,6 +7,8 @@ import dbus
 import psutil
 import platform
 import datetime
+import subprocess
+import argparse
 from traceback import print_exc
 from os.path import dirname
 from adapt.intent import IntentBuilder
@@ -324,7 +326,40 @@ class InternalsPlasmaDesktopSkill(MycroftSkill):
             remote_object.evaluateScript(rightJsc)
         else:
             self.speak_dialog("internals.badlocation")        
-        
+    
+    @intent_handler(IntentBuilder("InteractiveScreenshot").require("InternalScreenShotKeyword").build())
+    def handle_interactive_screenshot_intent(self, message):
+        """
+        Interactive Screenshot
+        """
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.kde.KWin","/Screenshot") 
+        imgpath = remote_object.screenshotArea(0,0,1920,1080, dbus_interface = "org.kde.kwin.Screenshot")
+    
+    @intent_handler(IntentBuilder("ImgRecogScreenshot").require("ImgRecogScreenShotKeyword").build())
+    def handle_imgrecogscreenshot_intent(self, message):
+        """
+        Interactive Screenshot + Image Recoginition
+        """
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.kde.KWin","/Screenshot") 
+        imgpath = remote_object.screenshotArea(0,0,1920,1080, dbus_interface = "org.kde.kwin.Screenshot")
+        filepath = "file:\\\{0}".format(imgpath)
+        imageRecogCmd = "mycroft:\search image url {0}".format(filepath)
+        res = subprocess.call(("kioclient5", "cat", imageRecogCmd))
+
+    @intent_handler(IntentBuilder("ImgExtractScreenshot").require("ImgExtractScreenShotKeyword").build())
+    def handle_imgextractscreenshot_intent(self, message):
+        """
+        Interactive Screenshot + Image Recoginition
+        """
+        bus = dbus.SessionBus()
+        remote_object = bus.get_object("org.kde.KWin","/Screenshot") 
+        imgpath = remote_object.screenshotArea(0,0,1920,1080, dbus_interface = "org.kde.kwin.Screenshot")
+        filepath = "file:\\\{0}".format(imgpath)
+        imageExtractCmd = "mycroft:\ocr image url {0}".format(filepath)
+        res = subprocess.call(("kioclient5", "cat", imageExtractCmd))
+
     def stop(self):
         """
         Mycroft Stop Function
