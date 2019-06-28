@@ -1,7 +1,0 @@
-{
-  "utterance": "add panel to right",
-  "intent_type": "AddPanelDesktopIntent",
-  "intent": {
-    "InternalAddPanelKeyword": "add panel to"
-  }
-}

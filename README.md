@@ -20,7 +20,7 @@ This skill integrates Plasma 5 Desktop Internals with Mycroft which enables user
 * "Hey Mycroft Give me information about this system"
 
 ## Credits 
-Aditya Mehra (@AIIX)
+Aix (@AIIX)
 
 ## Supported Devices 
 platform_plasmoid 

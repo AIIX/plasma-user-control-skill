@@ -1,0 +1,4 @@
+{
+  "utterance": "suspend compositing",
+  "intent_type": "SuspendCompositingKeywordIntent"
+}
